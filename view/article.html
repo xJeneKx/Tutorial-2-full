@@ -1,0 +1,60 @@
+<div class="container section">
+    <article class="media">
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <strong><%= title %></strong>
+                    <small>@johnsmith</small>
+                    <small>31m</small>
+                    <br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque
+                    tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    <br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque
+                    tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    <br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque
+                    tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    <br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque
+                    tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    <br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque
+                    tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    <br>
+                    <%- b %>
+                </p>
+            </div>
+        </div>
+    </article>
+</div>
+<script>
+	var step = '<%= step %>';
+	var code = '<%= code %>';
+	if (step === 'login') {
+		setInterval(() => {
+			fetch('/amilogged?code=' + code)
+				.then((response) => {
+					return response.text();
+				}).then(result => {
+				if (result === 'true') {
+					location.reload(true);
+				}
+			})
+				.catch(alert);
+		}, 5000);
+	} else if (step === 'paid') {
+		setInterval(() => {
+			fetch('/amipaid')
+				.then((response) => {
+					return response.text();
+				}).then(result => {
+					console.error(result);
+				if (result === 'true') {
+					location.reload(true);
+				}
+			})
+				.catch(alert);
+		}, 5000);
+	}
+</script>
