@@ -7,12 +7,12 @@ const serve = require('koa-static');
 const render = require('koa-ejs');
 const koaBody = require('koa-body');
 const QRCode = require('qrcode');
-const constants = require('byteballcore/constants.js');
-const conf = require('byteballcore/conf');
-const db = require('byteballcore/db');
-const eventBus = require('byteballcore/event_bus');
-const validationUtils = require('byteballcore/validation_utils');
-const headlessWallet = require('headless-byteball');
+const constants = require('ocore/constants.js');
+const conf = require('ocore/conf');
+const db = require('ocore/db');
+const eventBus = require('ocore/event_bus');
+const validationUtils = require('ocore/validation_utils');
+const headlessWallet = require('headless-obyte');
 
 app.use(koaBody());
 render(app, {
@@ -41,7 +41,7 @@ async function a1(ctx) {
 	let step;
 	if (!assocCode) {
 		code = getCode();
-		pairingCode = 'Aly99HdWoCFaxJiIHs1ldREAN/sMDhGsRHNQ2RYU9gCj@byteball.org/bb#' + code;
+		pairingCode = 'Aly99HdWoCFaxJiIHs1ldREAN/sMDhGsRHNQ2RYU9gCj@ocore.org/bb#' + code;
 	} else {
 		paid = await itPaid(assocCode);
 	}
@@ -120,7 +120,7 @@ eventBus.once('headless_wallet_ready', () => {
 	headlessWallet.setupChatEventHandlers();
 	
 	eventBus.on('paired', (from_address, pairing_secret) => {
-		let device = require('byteballcore/device');
+		let device = require('ocore/device');
 		assocCodeToDeviceAddress[pairing_secret] = from_address;
 		device.sendMessageToDevice(from_address, 'text', 'ok');
 	});
@@ -132,7 +132,7 @@ eventBus.once('headless_wallet_ready', () => {
 });
 
 eventBus.on('new_my_transactions', (arrUnits) => {
-	const device = require('byteballcore/device.js');
+	const device = require('ocore/device.js');
 	db.query("SELECT address, amount, asset FROM outputs WHERE unit IN (?)", [arrUnits], rows => {
 		rows.forEach(row => {
 			if (row.amount === 100 && row.asset === null) {
